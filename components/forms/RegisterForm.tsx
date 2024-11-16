@@ -3,14 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod";
-import { Button } from "@/components/ui/button"
 import { Form, FormControl } from "@/components/ui/form"
 import CustomFormField from "../CustomFormField";
 import { PatientFormValidation, UserFormValidation } from "@/lib/validation";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import SubmitButton from "../SubmitButton";
 import { useRouter } from "next/navigation";
-import { createUser, registerPatient } from "@/lib/actions/patient.actions";
+import { registerPatient } from "@/lib/actions/patient.actions";
 import { formFieldTypes } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants";
