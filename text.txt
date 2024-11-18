@@ -1,0 +1,5 @@
+Console Error
+
+[ Server ]  Error: Route "/" used `searchParams.admin`. `searchParams` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+
+app/page.tsx
