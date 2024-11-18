@@ -21,7 +21,7 @@ export const createAppointment = async (appointment : CreateAppointmentParams) =
     }
 }
 
-export const getAppointment = async (appointmentID : String) => {
+export const getAppointment = async (appointmentID : string) => {
     try {
         const appointemt = await databases.getDocument(
             DATABASE_ID!,
