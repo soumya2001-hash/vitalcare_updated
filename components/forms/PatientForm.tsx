@@ -45,18 +45,26 @@ const PatientForm = () => {
     
     try {
       const userData = {name, email, phone};
+      // console.log("Submitting userData:", userData);
       if(userData){
         const user = await createUser(userData);
-        console.log("loading");
+        // console.log("API Response:", user);
+        // console.log("loading");
         if(user) {
-          console.log(user);
+          // console.log(user);
           router.push(`/patients/${user.$id}/register`);
           console.log("routed")}
+        else{
+          console.log("user does not exist");
+        }
       }
       
       
     } catch (error) {
       console.log(error);
+    }
+    finally {
+      setIsLoading(false);
     }
 
   }

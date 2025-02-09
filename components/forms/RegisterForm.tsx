@@ -38,35 +38,92 @@ const RegisterForm = ( { user }: { user : User }) => {
   })
  
   // 2. Define a submit handler.
+  // async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
+  //   setIsLoading(true);
+  //   console.log("Selected File:", values.identificationDocument);
+
+  //   if (!values.identificationDocument || values.identificationDocument.length === 0) {
+  //     console.error("No file selected");
+  //     return;
+  //   }
+  //   let formData;
+  //   if(values.identificationDocument && values.identificationDocument.length > 0) {
+  //     const blobFile = new Blob([values.identificationDocument[0]], {
+  //       type: values.identificationDocument.type,
+  //     })
+
+  //   formData = new FormData();
+  //   formData.append('blobFile', blobFile);
+  //   formData.append('fileName', values.identificationDocument[0].name);
+  //   }
+
+  //   console.log("formData", formData);
+    
+
+  //   try {
+  //     const patientData = {
+  //       ...values,
+  //       userID: user.$id,
+  //       birthDate: new Date(values.birthDate),
+  //       identificationDocument: formData
+  //     } 
+  //     //@ts-ignore 
+  //     console.log("patientData", patientData);
+  //     const patient = await registerPatient(patientData);
+
+  //     if(patient) router.push(`/patients/${user.$id}/new-appointment`)
+  //   } catch (error) {
+  //     console.log("error in routing to appointment page",error);
+  //   }
+
+  // }
+
+
+
   async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
     setIsLoading(true);
-    let formData;
-    if(values.identificationDocument && values.identificationDocument.length > 0) {
-      const blobFile = new Blob([values.identificationDocument[0]], {
-        type: values.identificationDocument.type,
-      })
-
-    formData = new FormData();
-    formData.append('blobFile', blobFile);
-    formData.append('fileName', values.identificationDocument[0].name);
+    // console.log("Selected File:", values.identificationDocument);
+  
+    if (!values.identificationDocument || values.identificationDocument.length === 0) {
+      console.error("No file selected");
+      return;
     }
-
+  
+    const formData = new FormData();
+    
+    // ✅ Append the original File object correctly
+    formData.append("identificationDocument", values.identificationDocument[0], values.identificationDocument[0].name);
+  
+    // 🔍 Debugging: Log FormData contents
+    // console.log("FormData entries:", [...formData.entries()]);
+  
     try {
       const patientData = {
         ...values,
         userID: user.$id,
         birthDate: new Date(values.birthDate),
-        identificationDocument: formData
-      } 
-      //@ts-ignore 
+        identificationDocument: formData, // Ensure backend supports FormData!
+      };
+  
+      // console.log("patientData", patientData);
+      
+      //@ts-ignore
       const patient = await registerPatient(patientData);
-
-      if(patient) router.push(`/patients/${user.$id}/new-appointment`)
+      // console.log("patient ", patient);
+      if (!user || !user.$id) {
+        console.error("User object is missing or incomplete:", user);
+        return;
+      }
+      
+  
+      if (patient) router.push(`/patients/${user.$id}/new-appointment`);
     } catch (error) {
-      console.log(error);
+      console.log("Error in routing to appointment page", error);
     }
-
   }
+  
+  
+  
 
   return (
     <Form {...form}>

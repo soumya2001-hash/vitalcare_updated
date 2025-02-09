@@ -107,7 +107,7 @@ const AppointmentForm = ({userID, patientID, type, appointment, setOpen} : {
           type
         };
         const updatedAppointment = await updateAppointment(appointmentToUpdate);
-        console.log(updatedAppointment);
+        // console.log(updatedAppointment);
         if(updatedAppointment){
             setOpen && setOpen(false);
             form.reset();
